@@ -9,13 +9,18 @@ class SignInPage extends StatelessWidget {
 
   SignInPage({super.key});
 
-  Widget _form(BuildContext context) {
+  Widget _form(BuildContext context, ColorScheme colors) {
     return Container(
       width: MediaQuery.of(context).size.width *
           0.8, // ancho del 80% de la pantalla
       padding: EdgeInsets.all(16),
-      color: Colors.white,
-      // Column: In block elements vertically, Row: In block elements horizontally, Stack: In block elements on top of each other
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        border: Border.all(
+          width: 1,
+          color: Colors.grey,
+        ),
+      ),
       child: Column(
         children: [
           Text('INGRESA ESTA INFORMACIÓN'),
@@ -38,53 +43,152 @@ class SignInPage extends StatelessWidget {
               prefixIcon: Icon(Icons.lock),
               border: UnderlineInputBorder(),
             ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Usuario y contraseña no válidos",
+            style: TextStyle(color: Colors.red),
+          ),
+          SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colors.secondary,
+                foregroundColor: colors.surface,
+                padding: EdgeInsets.symmetric(vertical: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero, // sin bordes redondeados
+                ),
+              ),
+              child: Text(
+                'INCIAR SESIÓN',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('No tienes una cuenta?'),
+              SizedBox(
+                width: 4,
+              ),
+              InkWell(
+                onTap: () {
+                  print('Ir al registro');
+                  // Acción al presionar "Creala aquí"
+                },
+                child: Text(
+                  'Creala aquí',
+                  style: TextStyle(
+                      color: Colors.orange, 
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
           )
         ],
       ),
     );
   }
 
+  Widget _recoverPassword(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Olvidaste tu contraseña?'),
+        SizedBox(
+          width: 4,
+        ),
+        InkWell(
+          onTap: () {
+            print('Ir a recuperar contraseña');
+            // Acción al presionar "Recuperala aquí"
+          },
+          child: Text(
+            'Recuperala aquí',
+            style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _header(BuildContext context, ColorScheme colors) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 50,
+        ),
+        Image.asset(
+          'assets/images/ulises.png',
+          width: 140,
+          height: 140,
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          'BiblioApp ULima',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        _form(context, colors),
+      ],
+    );
+  }
+
+  Widget _background(BuildContext context, ColorScheme colors) {
+    return Column(
+      children: [
+        // 30% superior
+        Expanded(
+          flex: 5, // 30%
+          child: Container(
+            width: double.infinity,
+            color: colors.tertiaryContainer, // puedes cambiar color
+          ),
+        ),
+
+        // 70% inferior
+        Expanded(
+          flex: 5, // 70%
+          child: Container(
+            width: double.infinity,
+            color: colors.surfaceContainerHigh, // otro color
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildBody(BuildContext context) {
+    ColorScheme colors = Theme.of(context).colorScheme;
     return SafeArea(
-      child: Column(
+        child: Stack(children: [
+      _background(context, colors),
+      Column(
         children: [
           Row(
-            // Row para centrar horizontalmente
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                // sino le pones el column, se van a poner uno al lado del otro (esto es inline)
-                children: [
-                  SizedBox(
-                    height:
-                        50, // como un padding para separar el texto de la imagen
-                  ),
-                  Image.asset(
-                    'assets/images/ulises.png',
-                    width: 150,
-                    height: 150,
-                  ),
-                  SizedBox(
-                    height:
-                        15, // como un padding para separar el texto de la imagen
-                  ),
-                  Text(
-                    'BiblioApp Ulima!',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _form(context),
-                ],
-              ),
-            ],
+            mainAxisAlignment:
+                MainAxisAlignment.center, // centra horizontalmente
+            children: [_header(context, colors)],
           ),
+          Spacer(),
+          _recoverPassword(context),
+          SizedBox(
+            height: 15,
+          )
         ],
       ),
-    );
+    ]));
   }
 
   @override
