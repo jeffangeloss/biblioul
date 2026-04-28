@@ -1,24 +1,24 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:biblioul/components/login_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'sign_in_controller.dart';
 
 class SignInPage extends StatelessWidget {
-  final SignInController control = Get.put(SignInController());
+  SignInController control = Get.put(SignInController());
 
   SignInPage({super.key});
 
   Widget _form(BuildContext context, ColorScheme colors) {
     return Container(
-      width: MediaQuery.of(context).size.width *
-          0.8, // ancho del 80% de la pantalla
+      width: MediaQuery.of(context).size.width * 0.8,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.amber,
+        color: colors.background, // El color va aquí dentro
         border: Border.all(
           width: 1,
-          color: Colors.grey,
+          color: Colors.grey, // Color del borde
         ),
       ),
       child: Column(
@@ -29,16 +29,14 @@ class SignInPage extends StatelessWidget {
           ),
           TextField(
             decoration: InputDecoration(
-              labelText: 'Usuario',
               hintText: 'Usuario',
               prefixIcon: Icon(Icons.person),
               border: UnderlineInputBorder(),
             ),
           ),
           TextField(
-            obscureText: true, // para ocultar el texto de la contraseña,
+            obscureText: true,
             decoration: InputDecoration(
-              labelText: 'Contraseña',
               hintText: 'Contraseña',
               prefixIcon: Icon(Icons.lock),
               border: UnderlineInputBorder(),
@@ -46,7 +44,7 @@ class SignInPage extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            "Usuario y contraseña no válidos",
+            'Usuario y contraseña no válidos',
             style: TextStyle(color: Colors.red),
           ),
           SizedBox(height: 10),
@@ -59,11 +57,11 @@ class SignInPage extends StatelessWidget {
                 foregroundColor: colors.surface,
                 padding: EdgeInsets.symmetric(vertical: 20),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.zero, // sin bordes redondeados
+                  borderRadius: BorderRadius.zero,
                 ),
               ),
               child: Text(
-                'INCIAR SESIÓN',
+                'INICIAR SESIÓN',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -78,14 +76,14 @@ class SignInPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  print('Ir al registro');
-                  // Acción al presionar "Creala aquí"
+                  print('Ir a registro');
                 },
                 child: Text(
                   'Creala aquí',
                   style: TextStyle(
-                      color: Colors.orange, 
-                      fontWeight: FontWeight.bold),
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               )
             ],
@@ -106,41 +104,15 @@ class SignInPage extends StatelessWidget {
         InkWell(
           onTap: () {
             print('Ir a recuperar contraseña');
-            // Acción al presionar "Recuperala aquí"
           },
           child: Text(
             'Recuperala aquí',
-            style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.orange,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         )
-      ],
-    );
-  }
-
-  Widget _header(BuildContext context, ColorScheme colors) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 50,
-        ),
-        Image.asset(
-          'assets/images/ulises.png',
-          width: 140,
-          height: 140,
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Text(
-          'BiblioApp ULima',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        _form(context, colors),
       ],
     );
   }
@@ -162,7 +134,7 @@ class SignInPage extends StatelessWidget {
           flex: 5, // 70%
           child: Container(
             width: double.infinity,
-            color: colors.surfaceContainerHigh, // otro color
+            color: colors.surfaceContainerHighest, // otro color
           ),
         ),
       ],
@@ -171,6 +143,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
+
     return SafeArea(
         child: Stack(children: [
       _background(context, colors),
@@ -179,8 +152,9 @@ class SignInPage extends StatelessWidget {
           Row(
             mainAxisAlignment:
                 MainAxisAlignment.center, // centra horizontalmente
-            children: [_header(context, colors)],
+            children: [LoginHeader()],
           ),
+          _form(context, colors),
           Spacer(),
           _recoverPassword(context),
           SizedBox(
@@ -190,6 +164,15 @@ class SignInPage extends StatelessWidget {
       ),
     ]));
   }
+
+  /*
+  Column(
+    children:[
+      SafeArea...
+    ]
+  )
+
+   */
 
   @override
   Widget build(BuildContext context) {

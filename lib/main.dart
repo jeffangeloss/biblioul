@@ -1,4 +1,7 @@
 // main.dart
+import 'package:biblioul/pages/home/home_page.dart';
+import 'package:biblioul/pages/recover_password/recover_password_page.dart';
+import 'package:biblioul/pages/sign_up/sign_up_page.dart';
 import 'package:biblioul/pages/template/template_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/sign_in/sign_in_page.dart';
@@ -15,23 +18,13 @@ class MyApp extends StatelessWidget {
     //
     final TextTheme baseTextTheme = Typography.material2021().englishLike;
     final MaterialTheme materialTheme = MaterialTheme(baseTextTheme);
-    final colors = Theme.of(context).colorScheme;
-
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    ThemeData myTheme;
-
-    if (isDarkMode) {
-      myTheme = materialTheme.dark();
-    } else {
-      myTheme = materialTheme.light();
-    }
 
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: materialTheme.light(),
         darkTheme: materialTheme.dark(),
         themeMode: ThemeMode.system,
-        home: SignInPage());
+        home: HomePage());
   }
 }
